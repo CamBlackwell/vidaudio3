@@ -2,37 +2,34 @@
 #include <opencv2/opencv.hpp>
 
 int main(){
-    cv::VideoCapture cap(0);
+    cv::videocapture cap(0);
 
-    if (!cap.isOpened()) {
-        std::cerr << "Could not open the camera" << std::endl;
+    if (!cap.isOpened()){
+        std::cerr << "Error opening video capture" << std::endl;
         return -1;
     }
 
-    std::string windowName = "webcam feed";
+    std::string windowName = "webcam feed :)";
     cv::namedWindow(windowName, cv::WINDOW_AUTOSIZE);
 
     cv::Mat frame;
+    std::cout << "Camera feed has started press esc to stop" << std::endl;
 
-    std::cout << "Video feed as started press esc to quit" << std::endl;
-
-    while (true) {
+    while (true){
         cap >> frame;
-        if (frame.empty()) {
-            std::cout << "ERROR: No frame in video" << std::endl; 
+
+        if (frame.empty()){
+            std::cout << "ERROR: no frame in video" << std::endl;
             break;
+        }
+        cv::imshow(windowName, frame);
+        int key = cv::waitKey(25);
+        if (key == 27){
+            std::cout << "application terminated by user by pressing esc" << std::endl;
+            break;
+        }
     }
-
-    cv::imshow(windowName, frame);
-
-    int key = cv::waitKey(25);
-    if (key == 27) {
-        std::cout << "application terminated by user" << std::endl;
-        break;
-    }
-    
     cap.release();
     cv::destroyAllWindows();
-
     return 0;
 }
