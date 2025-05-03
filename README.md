@@ -1,6 +1,6 @@
 # Webcam Application
 
-A simple C++ application for capturing and displaying webcam feed using OpenCV.
+This C++ application will take your webcam video or a downloaded video and generate music influenced by the video data :)
 
 ## Prerequisites
 
