@@ -6,10 +6,12 @@
 
 
 WebcamInfo::WebcamInfo() : has_previous_frame(false) {
+    /*
     bool loaded = face.load(cv::samples::findFile("haarcascade/haarcascade_frontalface_alt2.xml"));
     if (!loaded) {
         std::cerr << "Error loading cascade" << std::endl;
     }
+        */
 }
 
 cv::Mat WebcamInfo::analyzeAndDisplay(const cv::Mat& frame) {
