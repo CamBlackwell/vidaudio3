@@ -20,9 +20,9 @@ cv::Mat WebcamInfo::analyzeAndDisplay(const cv::Mat& frame) {
     std::string right_info= get_pixel_info(frame, 3 * frame.cols / 4, frame.rows / 4);
 
     std::vector<std::string> info_colums{
-        "left side: " + left_side,
-        "middle: " + middle_info,
-        "right side: " + right_info,
+        "left:  " + left_side,
+        "mid:  " + middle_info,
+        "right: " + right_info,
     };
 
     return display_info_and_video(frame, info_colums);
@@ -46,16 +46,16 @@ std::string WebcamInfo::get_pixel_info(const cv::Mat& frame, int x, int y) {
 }
 
 cv::Mat WebcamInfo::display_info_and_video(const cv::Mat& frame, const std::vector<std::string>& info_colums) {
-    int line_height = 20;
-    panel_height = line_height * info_colums.size();
+    int line_height = 50;
+    panel_height = line_height * info_colums.size() + 50;
     int font_face = cv::FONT_HERSHEY_SIMPLEX;
-    double font_scale = 1.0;
+    double font_scale = 1.5;
     int font_thickness = 1;
 
     cv::Mat info_panel(panel_height, frame.cols, CV_8UC3, cv::Scalar(0, 0, 0));
 
     for (size_t i = 0; i < info_colums.size(); i++) {
-        int y_position = (i + 1) * line_height - 10;
+        int y_position = (i + 1) * line_height - 5;
         cv::putText(info_panel, info_colums[i], cv::Point(10, y_position), font_face, font_scale, cv::Scalar(255,255,255), font_thickness);
     }
 
