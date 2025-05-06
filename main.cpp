@@ -1,9 +1,11 @@
 #include <iostream>
 #include <opencv2/opencv.hpp>
 #include "webcam_info.h"
+#include "infotoaudio.h"
 
 int main(){
     cv::VideoCapture cap(0);
+    Infotoaudio audio;
 
     if (!cap.isOpened()){
         std::cerr << "Error opening video capture" << std::endl;
@@ -33,6 +35,10 @@ int main(){
             cv::imshow(windowName, display_frame);
             cv::resizeWindow(windowName, display_frame.cols, display_frame.rows);
         }
+
+        int centerX = frame.cols / 2;
+        int centerY = frame.rows / 2;
+        audio.read_and_play(frame, centerX, centerY, 150);
 
         int key = cv::waitKey(25);
         if (key == 27){
