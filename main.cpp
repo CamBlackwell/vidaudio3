@@ -29,7 +29,7 @@ int main(){
         
         if (!frame.empty()){
             display_frame = webcam_info.analyzeAndDisplay(frame);
-            std::cout << "frame size: " << frame.size() << "display frame size: " << display_frame.size() << std::endl;
+            //std::cout << "frame size: " << frame.size() << "display frame size: " << display_frame.size() << std::endl;
             cv::imshow(windowName, display_frame);
             cv::resizeWindow(windowName, display_frame.cols, display_frame.rows);
         }
