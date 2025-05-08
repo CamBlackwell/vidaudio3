@@ -1,7 +1,7 @@
 #include "infotoaudio.h"
 #include <iostream>
 
-Infotoaudio::Infotoaudio() : note_duration_ms(100), is_enabled(true) {
+Infotoaudio::Infotoaudio() : note_duration_ms(100), set_is_enabled(true) {
 
 }      
 
@@ -38,7 +38,7 @@ void Infotoaudio::set_note_duration_ms(int note_duration_ms) {
     this->note_duration_ms = note_duration_ms;
 }
 
-void Infotoaudio::is_enabled(bool is_enabled) {
+void Infotoaudio::set_is_enabled(bool is_enabled) {
     this->is_enabled = is_enabled;
 }
 

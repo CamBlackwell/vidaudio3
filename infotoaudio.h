@@ -10,7 +10,7 @@ public:
     ~Infotoaudio();
     void read_and_play(cv::Mat &frame, int x, int y, int threshold);
     void set_note_duration_ms(int note_duration_ms);
-    void is_enabled(bool is_enabled);
+    void set_is_enabled(bool is_enabled);
 private:
     int calculate_brightness(cv::Mat &frame, int x, int y);
     int note_duration_ms;
