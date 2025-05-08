@@ -1,0 +1,63 @@
+# CMake generation dependency list for this directory.
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeCInformation.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeCXXInformation.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeCommonLanguageInclude.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeDependentOption.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeFindDependencyMacro.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeGenericSystem.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeInitializeConfigs.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeLanguageInformation.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeRCInformation.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeSystemSpecificInformation.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CMakeSystemSpecificInitialize.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CheckCSourceCompiles.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CheckIncludeFile.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/CheckLibraryExists.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/Compiler/CMakeCommonCompilerMacros.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/Compiler/MSVC-C.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/Compiler/MSVC-CXX.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/FindPackageHandleStandardArgs.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/FindPackageMessage.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/FindTIFF.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/FindThreads.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/Internal/CheckSourceCompiles.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/Platform/Windows-MSVC-C.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/Platform/Windows-MSVC-CXX.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/Platform/Windows-MSVC.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/Platform/Windows.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/Platform/WindowsPaths.cmake
+C:/Program Files/Microsoft Visual Studio/2022/Community/Common7/IDE/CommonExtensions/Microsoft/CMake/CMake/share/cmake-3.21/Modules/SelectLibraryConfigurations.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/CMakeLists.txt
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/build/CMakeFiles/3.21.21080301-MSVC_2/CMakeCCompiler.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/build/CMakeFiles/3.21.21080301-MSVC_2/CMakeCXXCompiler.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/build/CMakeFiles/3.21.21080301-MSVC_2/CMakeRCCompiler.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/build/CMakeFiles/3.21.21080301-MSVC_2/CMakeSystem.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/absl/abslConfig.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/absl/abslConfigVersion.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/absl/abslTargets-debug.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/absl/abslTargets-release.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/absl/abslTargets.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/opencv/vcpkg-cmake-wrapper.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/opencv4/OpenCVConfig-version.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/opencv4/OpenCVConfig.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/opencv4/OpenCVModules-debug.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/opencv4/OpenCVModules-release.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/opencv4/OpenCVModules.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/protobuf/protobuf-config-version.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/protobuf/protobuf-config.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/protobuf/protobuf-generate.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/protobuf/protobuf-module.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/protobuf/protobuf-options.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/protobuf/protobuf-targets-debug.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/protobuf/protobuf-targets-release.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/protobuf/protobuf-targets.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/protobuf/vcpkg-cmake-wrapper.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/quirc/quirc-config-debug.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/quirc/quirc-config-release.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/quirc/quirc-config.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/tiff/vcpkg-cmake-wrapper.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/utf8_range/utf8_range-config.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/utf8_range/utf8_range-targets-debug.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/utf8_range/utf8_range-targets-release.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/share/utf8_range/utf8_range-targets.cmake
+C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/scripts/buildsystems/vcpkg.cmake

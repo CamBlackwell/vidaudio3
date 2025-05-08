@@ -1,0 +1,10 @@
+^C:\USERS\CAMER\ONEDRIVE\DESKTOP\PROJECTS\VIDAUDIO3\BUILD\CMAKEFILES\CD89FC9AF0FAE8382443EF0455D50D03\GENERATE.STAMP.RULE
+setlocal
+"C:\Program Files\Microsoft Visual Studio\2022\Community\Common7\IDE\CommonExtensions\Microsoft\CMake\CMake\bin\cmake.exe" -SC:/Users/camer/OneDrive/Desktop/Projects/vidaudio3 -BC:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/build --check-stamp-list CMakeFiles/generate.stamp.list --vs-solution-file C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/build/vidaudio3.sln
+if %errorlevel% neq 0 goto :cmEnd
+:cmEnd
+endlocal & call :cmErrorLevel %errorlevel% & goto :cmDone
+:cmErrorLevel
+exit /b %1
+:cmDone
+if %errorlevel% neq 0 goto :VCEnd

@@ -197,6 +197,9 @@ Protobuf_DIR:PATH=C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/insta
 //Path to a program.
 Protobuf_PROTOC_EXECUTABLE:FILEPATH=C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/tools/protobuf/protoc.exe
 
+//The directory containing a CMake configuration file for RtAudio.
+RtAudio_DIR:PATH=RtAudio_DIR-NOTFOUND
+
 //Path to a file.
 TIFF_INCLUDE_DIR:PATH=C:/Users/camer/OneDrive/Desktop/Projects/vidaudio3/vcpkg/installed/x64-windows/include
 

@@ -1,0 +1,13 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="16.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <CustomBuild Include="C:\Users\camer\OneDrive\Desktop\Projects\vidaudio3\build\CMakeFiles\cd89fc9af0fae8382443ef0455d50d03\generate.stamp.rule">
+      <Filter>CMake Rules</Filter>
+    </CustomBuild>
+  </ItemGroup>
+  <ItemGroup>
+    <Filter Include="CMake Rules">
+      <UniqueIdentifier>{F7210AC5-B015-3DAA-B7A2-8D36DE0CFC11}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+</Project>
