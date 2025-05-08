@@ -1,7 +1,7 @@
 #include "infotoaudio.h"
 #include <iostream>
 
-Infotoaudio::Infotoaudio() : note_duration_ms(100), set_is_enabled(true) {
+Infotoaudio::Infotoaudio() : note_duration_ms(100), is_enabled(true) {
 
 }      
 
@@ -16,7 +16,7 @@ void Infotoaudio::read_and_play(cv::Mat &frame, int x, int y, int threshold) {
 
     int brightness = calculate_brightness(frame, x, y);
     if (brightness > threshold) {
-        int frequency = 300 * (brightness * 5);
+        int frequency = 300 + (brightness * 5);
         Beep(frequency, note_duration_ms);
         printf("infotoaudio::play_if_bright() playing beep at %d Hz\n", frequency);
     }
@@ -38,7 +38,7 @@ void Infotoaudio::set_note_duration_ms(int note_duration_ms) {
     this->note_duration_ms = note_duration_ms;
 }
 
-void Infotoaudio::set_is_enabled(bool is_enabled) {
+void Infotoaudio::is_enabled(bool is_enabled) {
     this->is_enabled = is_enabled;
 }
 
