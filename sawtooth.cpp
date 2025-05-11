@@ -1,6 +1,13 @@
 #include <iostream>
 #include <rtaudio/RtAudio.h>
 
+
+struct userData {
+    std::atomic<double> incLeft{0.005};
+    std::atomic<double> incRight{0.005};
+    double lastValues[2] = {0,0};
+}
+
 int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
         double streamTime, RtAudioStreamStatus status, void *userData ) {
         unsigned int i, j;
@@ -13,12 +20,14 @@ int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
         }
 
         for ( i=0; i<nBufferFrames; i++ ) {
-            for ( j=0; j<2; j++ ) {
-                *buffer++ = lastValues[j];
+            *buffer++ = data->lastValues[0];
+            data->lastValues[0] += data-> incLeft.load();
+            if (data->lastValues[0] > 1.0) data -> lastValues[0] -= 2.0;
 
-                lastValues[j] += 0.005 * (j+1+(j*0.1));
-                if ( lastValues[j] > 1.0 ) lastValues[j] -= 2.0;
-            }
+
+            *buffer++ = data->lastValues[1];
+            data->lastValues[1] += data-> incLeft.load();
+            if (data->lastValues[1] > 1.0) data -> lastValues[1] -= 2.0;
         }
     return 0;
 }
