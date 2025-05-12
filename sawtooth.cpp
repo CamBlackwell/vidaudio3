@@ -1,18 +1,19 @@
 #include <iostream>
 #include <rtaudio/RtAudio.h>
+#include <atomic>
+#include <string>
 
-
-struct userData {
+struct UserData {
     std::atomic<double> incLeft{0.005};
     std::atomic<double> incRight{0.005};
     double lastValues[2] = {0,0};
-}
+};
 
 int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
         double streamTime, RtAudioStreamStatus status, void *userData ) {
         unsigned int i, j;
         double *buffer = (double *) outputBuffer;
-        double *lastValues = (double *) userData;
+        UserData *data = (UserData *) userData;
 
         if ( status ) {
             std::cout << "Stream underflow detected!" << std::endl;
@@ -26,10 +27,33 @@ int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 
             *buffer++ = data->lastValues[1];
-            data->lastValues[1] += data-> incLeft.load();
+            data->lastValues[1] += data-> incRight.load();
             if (data->lastValues[1] > 1.0) data -> lastValues[1] -= 2.0;
         }
     return 0;
+}
+
+void controlThread(UserData *data) {
+    char ch;
+    const double stepSize = 0.0005;
+    
+    std::cout << "\nControls:" << std::endl;
+    std::cout << "'l' to increase left (+), 'j' to decrease left (-)" << std::endl;
+    std::cout << "'r' to increase right (+), 'k' to decrease right (-)" << std::endl;
+    std::cout << "'q' to quit" << std::endl;
+    
+    while (true) {
+        std::cout << "\rLeft: " << data->incLeft.load() << " Right: " << data->incRight.load() << " > ";
+        std::cin >> ch;
+        
+        switch (ch) {
+            case 'l': data->incLeft = data->incLeft.load() + stepSize; break;
+            case 'j': data->incLeft = std::max(0.0, data->incLeft.load() - stepSize); break;
+            case 'r': data->incRight = data->incRight.load() + stepSize; break;
+            case 'k': data->incRight = std::max(0.0, data->incRight.load() - stepSize); break;
+            case 'q': return;
+        }
+    }
 }
 
 int main() {
@@ -45,10 +69,12 @@ int main() {
     parameters.firstChannel = 0;    
     unsigned int samplerate = 44100;
     unsigned int bufferFrames = 256;
-    double data[2] = {0, 0};
+
+
+    UserData userData;
 
     try {
-        dac.openStream( &parameters, NULL, RTAUDIO_FLOAT64, samplerate, &bufferFrames, &saw, (void*)&data);
+        dac.openStream( &parameters, NULL, RTAUDIO_FLOAT64, samplerate, &bufferFrames, &saw, (void*)&userData);
     } catch (RtAudioError& e) {
         std::cout << '\n' << e.getMessage() << '\n' << std::endl;
         exit( 0 );
@@ -60,9 +86,12 @@ int main() {
         std::cout << '\n' << e.getMessage() << '\n' << std::endl;
         goto cleanup;
     }
-    char input;
-    std::cout << "\nPlaying. Press <ENTER> to quit." << std::endl;
-    std::cin.get();
+    std::cout << "\nPlaying. Use commands to adjust frequencies:" << std::endl;
+    std::cout << "l [value] - adjust left channel increment" << std::endl;
+    std::cout << "r [value] - adjust right channel increment" << std::endl;
+    std::cout << "q - quit program" << std::endl;
+
+    controlThread(&userData);
 
     if ( dac.isStreamRunning() ) 
         dac.stopStream();
