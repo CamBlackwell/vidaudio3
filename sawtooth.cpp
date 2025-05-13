@@ -2,11 +2,23 @@
 #include <rtaudio/RtAudio.h>
 #include <atomic>
 #include <string>
+#include <cmath>
 
 struct UserData {
-    std::atomic<double> incLeft{0.005};
-    std::atomic<double> incRight{0.005};
-    double lastValues[2] = {0,0};
+    std::atomic<int> leftIndex{0};
+    std::atomic<int> rightIndex{0};
+    std::atomic<int> leftOctave{0};
+    std::atomic<int> rightOctave{0};
+    double lastValues[2] = {0.0, 0.0};
+
+    static constexpr double cmin[] = {261.63, 293.66, 311.13, 349.23, 392.00, 415.30, 466.16};
+    static constexpr int scaleSize = 7;
+    
+    double getIncrement(int index, int octave) const {
+        if (index < 0 || index >= scaleSize) return 0.005; 
+        double freq = cmin[index] * pow(2.0, octave);
+        return freq / 44100.0;
+    }
 };
 
 int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
@@ -20,14 +32,18 @@ int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
             return 0;
         }
 
+
         for ( i=0; i<nBufferFrames; i++ ) {
+            double incLeft = data->getIncrement(data->leftIndex.load(), data->leftOctave.load());
+            double incRight = data->getIncrement(data->rightIndex.load(), data->rightOctave.load());
+
             *buffer++ = data->lastValues[0];
-            data->lastValues[0] += data-> incLeft.load();
+            data->lastValues[0] += incLeft;
             if (data->lastValues[0] > 1.0) data -> lastValues[0] -= 2.0;
 
 
             *buffer++ = data->lastValues[1];
-            data->lastValues[1] += data-> incRight.load();
+            data->lastValues[1] += incRight;
             if (data->lastValues[1] > 1.0) data -> lastValues[1] -= 2.0;
         }
     return 0;
@@ -35,22 +51,29 @@ int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 void controlThread(UserData *data) {
     char ch;
-    const double stepSize = 0.0005;
     
     std::cout << "\nControls:" << std::endl;
-    std::cout << "'l' to increase left (+), 'j' to decrease left (-)" << std::endl;
-    std::cout << "'r' to increase right (+), 'k' to decrease right (-)" << std::endl;
-    std::cout << "'q' to quit" << std::endl;
+    std::cout << "'a/z' - Left channel note up/down" << std::endl;
+    std::cout << "'s/x' - Left channel octave up/down" << std::endl;
+    std::cout << "'k/m' - Right channel note up/down" << std::endl;
+    std::cout << "'l/,' - Right channel octave up/down" << std::endl;
+    std::cout << "'q' - quit" << std::endl;
+    
     
     while (true) {
-        std::cout << "\rLeft: " << data->incLeft.load() << " Right: " << data->incRight.load() << " > ";
+        std::cout << "\rLeft: " << data->leftIndex.load() << ":" << data->leftOctave.load()
+                  << " Right: " << data->rightIndex.load() << ":" << data->rightOctave.load() << " > ";
         std::cin >> ch;
         
         switch (ch) {
-            case 'l': data->incLeft = data->incLeft.load() + stepSize; break;
-            case 'j': data->incLeft = std::max(0.0, data->incLeft.load() - stepSize); break;
-            case 'r': data->incRight = data->incRight.load() + stepSize; break;
-            case 'k': data->incRight = std::max(0.0, data->incRight.load() - stepSize); break;
+            case 'a': data->leftIndex = (data->leftIndex.load() + 1) % data->scaleSize; break;
+            case 'z': data->leftIndex = (data->leftIndex.load() - 1 + data->scaleSize) % data->scaleSize; break;
+            case 's': data->leftOctave = std::min(2, data->leftOctave.load() + 1); break; 
+            case 'x': data->leftOctave = std::max(-2, data->leftOctave.load() - 1); break;
+            case 'k': data->rightIndex = (data->rightIndex.load() + 1) % data->scaleSize; break;
+            case 'm': data->rightIndex = (data->rightIndex.load() - 1 + data->scaleSize) % data->scaleSize; break;
+            case 'l': data->rightOctave = std::min(2, data->rightOctave.load() + 1); break; 
+            case ',': data->rightOctave = std::max(-2, data->rightOctave.load() - 1); break;
             case 'q': return;
         }
     }
@@ -86,10 +109,7 @@ int main() {
         std::cout << '\n' << e.getMessage() << '\n' << std::endl;
         goto cleanup;
     }
-    std::cout << "\nPlaying. Use commands to adjust frequencies:" << std::endl;
-    std::cout << "l [value] - adjust left channel increment" << std::endl;
-    std::cout << "r [value] - adjust right channel increment" << std::endl;
-    std::cout << "q - quit program" << std::endl;
+
 
     controlThread(&userData);
 
