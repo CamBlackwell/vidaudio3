@@ -78,7 +78,8 @@ void controlThread(UserData *data) {
             case 'l': data->rightOctave = std::min(2, data->rightOctave.load() + 1); break; 
             case ',': data->rightOctave = std::max(-2, data->rightOctave.load() - 1); break;
             case 'j': data->key = (data->key.load() + 1) % data->keySize; break;
-            case 'n': data->key = std::max(0, data->key.load() - 1  % data->keySize); break;
+            case 'n': data->key = (data->key.load() - 1 + data->keySize)  % data->keySize; break;
+
             case 'q': return;
         }
     }
