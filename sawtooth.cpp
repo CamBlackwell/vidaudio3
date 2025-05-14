@@ -3,6 +3,7 @@
 #include <atomic>
 #include <string>
 #include <cmath>
+#include "scales.h"
 
 struct UserData {
     std::atomic<int> leftIndex{0};
@@ -10,13 +11,14 @@ struct UserData {
     std::atomic<int> leftOctave{0};
     std::atomic<int> rightOctave{0};
     double lastValues[2] = {0.0, 0.0};
+    std::atomic<int> key{0};
+    static constexpr int keySize = Scales::keySize;
+    static constexpr int scaleSize = Scales::scaleSize;
 
-    static constexpr double cmin[] = {261.63, 293.66, 311.13, 349.23, 392.00, 415.30, 466.16};
-    static constexpr int scaleSize = 7;
     
-    double getIncrement(int index, int octave) const {
+    double getNote(int index, int octave, int key) const {
         if (index < 0 || index >= scaleSize) return 0.005; 
-        double freq = cmin[index] * pow(2.0, octave);
+        double freq = Scales::ALL_SCALES[key][index] * pow(2.0, octave);
         return freq / 44100.0;
     }
 };
@@ -34,8 +36,8 @@ int saw( void *outputBuffer, void *inputBuffer, unsigned int nBufferFrames,
 
 
         for ( i=0; i<nBufferFrames; i++ ) {
-            double incLeft = data->getIncrement(data->leftIndex.load(), data->leftOctave.load());
-            double incRight = data->getIncrement(data->rightIndex.load(), data->rightOctave.load());
+            double incLeft = data->getNote(data->leftIndex.load(), data->leftOctave.load(), data->key.load());
+            double incRight = data->getNote(data->rightIndex.load(), data->rightOctave.load(), data->key.load());
 
             *buffer++ = data->lastValues[0];
             data->lastValues[0] += incLeft;
@@ -57,6 +59,7 @@ void controlThread(UserData *data) {
     std::cout << "'s/x' - Left channel octave up/down" << std::endl;
     std::cout << "'k/m' - Right channel note up/down" << std::endl;
     std::cout << "'l/,' - Right channel octave up/down" << std::endl;
+    std::cout << "'j/n' - Right channel octave up/down" << std::endl;
     std::cout << "'q' - quit" << std::endl;
     
     
@@ -74,6 +77,8 @@ void controlThread(UserData *data) {
             case 'm': data->rightIndex = (data->rightIndex.load() - 1 + data->scaleSize) % data->scaleSize; break;
             case 'l': data->rightOctave = std::min(2, data->rightOctave.load() + 1); break; 
             case ',': data->rightOctave = std::max(-2, data->rightOctave.load() - 1); break;
+            case 'j': data->key = (data->key.load() + 1) % data->keySize; break;
+            case 'n': data->key = std::max(0, data->key.load() - 1  % data->keySize); break;
             case 'q': return;
         }
     }
