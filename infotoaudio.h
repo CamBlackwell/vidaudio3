@@ -9,7 +9,7 @@ public:
     Infotoaudio(Sawtooth* sawtooth_instance);
     ~Infotoaudio();
     void set_note_duration_ms(int note_duration_ms);
-    void set_lr_notes(cv::Mat frame, int x, int y);
+    void set_lr_notes(cv::Mat &frame, int x, int y);
 private:
     int calculate_brightness(cv::Mat &frame, int x, int y);
     int determine_note(int brightness, bool left_or_right_channel);  

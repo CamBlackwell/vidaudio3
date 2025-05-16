@@ -11,7 +11,7 @@ Sawtooth::~Sawtooth(){
 }
 
 bool Sawtooth::initialise(){
-    unsigned int devicecount = dac.getdevicecount();
+    unsigned int devicecount = dac.getDeviceCount();
     if ( devicecount < 1 ) {
         std::cout << "no audio devices found!" << std::endl;
         return false;
@@ -23,10 +23,12 @@ bool Sawtooth::initialise(){
     unsigned int samplerate = 44100;
     unsigned int bufferFrames = 256;
 
-    try {
-        dac.openStream( &parameters, NULL, RTAUDIO_FLOAT64, samplerate, &bufferFrames, &saw, (void*)&userData);
-    } catch (RtAudioError& e) {
-        std::cout << '\n' << e.getMessage() << '\n' << std::endl;
+    // RtAudio 6.0+ uses error codes instead of exceptions
+    RtAudioErrorType errorType = dac.openStream( &parameters, NULL, RTAUDIO_FLOAT64, 
+                                                  samplerate, &bufferFrames, &saw, 
+                                                  (void*)&userData);
+    if (errorType != RTAUDIO_NO_ERROR) {
+        std::cout << "\nError opening stream: " << dac.getErrorText() << "\n" << std::endl;
         return false;
     }
     return true;
@@ -34,13 +36,12 @@ bool Sawtooth::initialise(){
 
 void Sawtooth::start(){
     if (!is_running){
-        try {
-            dac.startStream();
-            is_running = true;
-        } catch (RtAudioError& e) {
-            std::cout << '\n' << e.getMessage() << '\n' << std::endl;
+        RtAudioErrorType errorType = dac.startStream();
+        if (errorType != RTAUDIO_NO_ERROR) {
+            std::cout << "\nError starting stream: " << dac.getErrorText() << "\n" << std::endl;
             return;
         }
+        is_running = true;
     }
 }
 
