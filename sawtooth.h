@@ -31,6 +31,9 @@ class Sawtooth {
         UserData userData;
         bool is_running = false;
 
+        static int saw(void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
+                      double streamtime, rtaudiostreamstatus status, void *userdata);
+
     public:
         Sawtooth();
         ~Sawtooth();
@@ -44,10 +47,10 @@ class Sawtooth {
         void set_right_note(int index, int octave);
         void set_key(int key);
 
-        int get_left_index() const { return userData.leftIndex.load(); }
-        int get_right_index() const { return userData.rightIndex.load(); }
-        int get_left_octave() const { return userData.leftOctave.load(); }
-        int get_right_octave() const { return userData.rightOctave.load(); }
+        int get_left_index() const { return userData.leftindex.load(); }
+        int get_right_index() const { return userData.rightindex.load(); }
+        int get_left_octave() const { return userData.leftoctave.load(); }
+        int get_right_octave() const { return userData.rightoctave.load(); }
         int get_key() const { return userData.key.load(); }
 
         void update_notes(int left, int right, int key, int octave);

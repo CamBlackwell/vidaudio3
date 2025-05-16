@@ -55,7 +55,7 @@ void Sawtooth::stop(){
 }
 
 int Sawtooth::saw( void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
-        double streamtime, rtaudiostreamstatus status, void *userdata ) {
+        double streamtime, RtAudioStreamStatus status, void *userdata ) {
         unsigned int i, j;
         double *buffer = (double *) outputbuffer;
         UserData *data = (UserData *) userdata;

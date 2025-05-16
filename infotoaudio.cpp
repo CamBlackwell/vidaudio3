@@ -13,15 +13,13 @@ int Infotoaudio::determine_note(int brightness, bool left_or_right_channel) {
         if (brightness < left_note + 50) return -1;
         if (brightness < left_note - 50) return 1;
         left_note = brightness;
-    else {
+    } else {
         if (brightness > right_note + 50) return 1;
         if (brightness < right_note - 50) return -1;
         right_note = brightness;
     } 
         return 0;
     }
-
-}
 
 void Infotoaudio::set_lr_notes(cv::Mat &frame, int x, int y) {
    int l = calculate_brightness(frame, x - 50, y);//left
