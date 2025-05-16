@@ -9,10 +9,10 @@
 #include "scales.h"
 
 struct UserData {
-    std::atomic<int> leftIndex{0};
-    std::atomic<int> rightIndex{0};
-    std::atomic<int> leftOctave{0};
-    std::atomic<int> rightOctave{0};
+    std::atomic<int> leftindex{0};
+    std::atomic<int> rightindex{0};
+    std::atomic<int> leftoctave{0};
+    std::atomic<int> rightoctave{0};
     double lastValues[2] = {0.0, 0.0};
     std::atomic<int> key{0};
     static constexpr int keySize = Scales::keySize;
@@ -44,13 +44,13 @@ class Sawtooth {
         void set_right_note(int index, int octave);
         void set_key(int key);
 
-        int get_left_index() const return(userData.leftIndex.load());
-        int get_right_index() const return(userData.rightIndex.load());
-        int get_left_octave() const return(userData.leftOctave.load());
-        int get_right_octave() const return(userData.rightOctave.load());
-        int get_key() const return(userData.key.load());
+        int get_left_index() const { return userData.leftIndex.load(); }
+        int get_right_index() const { return userData.rightIndex.load(); }
+        int get_left_octave() const { return userData.leftOctave.load(); }
+        int get_right_octave() const { return userData.rightOctave.load(); }
+        int get_key() const { return userData.key.load(); }
 
-        void update_notes(int left, int right, int key);
+        void update_notes(int left, int right, int key, int octave);
         void run_control_thread();
 
 };

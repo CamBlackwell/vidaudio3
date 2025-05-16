@@ -6,7 +6,7 @@
 
 class Infotoaudio {
 public:
-    Infotoaudio();
+    Infotoaudio(Sawtooth* sawtooth_instance);
     ~Infotoaudio();
     void set_note_duration_ms(int note_duration_ms);
     void set_lr_notes(cv::Mat frame, int x, int y);
@@ -17,6 +17,7 @@ private:
     bool is_enabled;
     int left_note;
     int right_note;
+    Sawtooth* sawtooth;
 };
 
 

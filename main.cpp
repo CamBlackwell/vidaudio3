@@ -6,8 +6,8 @@
 
 int main(){
     cv::VideoCapture cap(0);
-    Infotoaudio audio;
     Sawtooth synth;
+    Infotoaudio audio(&synth);
     
     if (!synth.initialise()) {
         std::cerr << "Failed to initialize audio" << std::endl;

@@ -1,7 +1,7 @@
 #include "infotoaudio.h"
 #include <iostream>
 
-Infotoaudio::Infotoaudio() : note_duration_ms(100), left_note(100), right_note(100) {
+Infotoaudio::Infotoaudio(Sawtooth* sawtooth_instance) : note_duration_ms(100), left_note(100), right_note(100), sawtooth(sawtooth_instance) {
 
 }      
 
@@ -13,7 +13,7 @@ int Infotoaudio::determine_note(int brightness, bool left_or_right_channel) {
         if (brightness < left_note + 50) return -1;
         if (brightness < left_note - 50) return 1;
         left_note = brightness;
-    if (!left_or_right_channel) { // right channel
+    else {
         if (brightness > right_note + 50) return 1;
         if (brightness < right_note - 50) return -1;
         right_note = brightness;
@@ -26,7 +26,7 @@ int Infotoaudio::determine_note(int brightness, bool left_or_right_channel) {
 void Infotoaudio::set_lr_notes(cv::Mat &frame, int x, int y) {
    int l = calculate_brightness(frame, x - 50, y);//left
    int r = calculate_brightness(frame, x + 50, y);//right
-   Sawtooth::update_notes(determine_note(l, true), determine_note(r, false), 0, 0);
+   sawtooth->update_notes(determine_note(l, true), determine_note(r, false), 0, 0);
    
 }
 

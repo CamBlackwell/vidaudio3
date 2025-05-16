@@ -21,8 +21,8 @@ namespace Scales {
         FS_MINOR, CS_MINOR, GS_MINOR, DS_MINOR, AS_MINOR, F_MINOR
     };
     
-    static constexpr int keySize = 12;
-    static constexpr int scaleSize = 7;
+    static constexpr int keysize = 12;
+    static constexpr int scalesize = 7;
 }
 
 #endif // SCALES_H
