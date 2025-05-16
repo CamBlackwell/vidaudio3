@@ -13,13 +13,13 @@ struct UserData {
     std::atomic<int> rightindex{0};
     std::atomic<int> leftoctave{0};
     std::atomic<int> rightoctave{0};
-    double lastValues[2] = {0.0, 0.0};
+    double lastvalues[2] = {0.0, 0.0};
     std::atomic<int> key{0};
-    static constexpr int keySize = Scales::keySize;
-    static constexpr int scaleSize = Scales::scaleSize;
+    static constexpr int keysize = Scales::keysize;
+    static constexpr int scalesize = Scales::scalesize;
 
-    double getNote(int index, int octave, int key) const {
-        if (index < 0 || index >= scaleSize) return 0.005; 
+    double getnote(int index, int octave, int key) const {
+        if (index < 0 || index >= scalesize) return 0.005; 
         double freq = Scales::ALL_SCALES[key][index] * pow(2.0, octave);
         return freq / 44100.0;
     }
@@ -32,7 +32,7 @@ class Sawtooth {
         bool is_running = false;
 
         static int saw(void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
-                      double streamtime, rtaudiostreamstatus status, void *userdata);
+                      double streamtime, RtAudioStreamStatus status, void *userdata);
 
     public:
         Sawtooth();
