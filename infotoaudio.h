@@ -8,13 +8,15 @@ class Infotoaudio {
 public:
     Infotoaudio();
     ~Infotoaudio();
-    void read_and_play(cv::Mat &frame, int x, int y, int threshold);
     void set_note_duration_ms(int note_duration_ms);
-    void set_is_enabled(bool is_enabled);
+    void set_lr_notes(cv::Mat frame, int x, int y);
 private:
     int calculate_brightness(cv::Mat &frame, int x, int y);
+    int determine_note(int brightness, bool left_or_right_channel);  
     int note_duration_ms;
     bool is_enabled;
+    int left_note;
+    int right_note;
 };
 
 

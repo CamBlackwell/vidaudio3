@@ -25,5 +25,5 @@ find_package(OpenCV REQUIRED)
 find_package(RtAudio CONFIG REQUIRED) 
 include_directories(${OpenCV_INCLUDE_DIRS})
 
-add_executable(vidaudio3 main.cpp webcam_info.cpp infotoaudio.cpp)
+add_executable(vidaudio3 main.cpp webcam_info.cpp infotoaudio.cpp sawtooth.cpp scales.h)
 target_link_libraries(vidaudio3 ${OpenCV_LIBS}  RtAudio::rtaudio)

@@ -10,7 +10,7 @@ Sawtooth::~Sawtooth(){
     stop();
 }
 
-Sawtooth::initialise(){
+bool Sawtooth::initialise(){
     unsigned int devicecount = dac.getdevicecount();
     if ( devicecount < 1 ) {
         std::cout << "no audio devices found!" << std::endl;
@@ -29,6 +29,8 @@ Sawtooth::initialise(){
         std::cout << '\n' << e.getMessage() << '\n' << std::endl;
         return false;
     }
+    return true;
+}
 
 void Sawtooth::start(){
     if (!is_running){
@@ -52,11 +54,11 @@ void Sawtooth::stop(){
     }
 }
 
-int saw( void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
+int Sawtooth::saw( void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
         double streamtime, rtaudiostreamstatus status, void *userdata ) {
         unsigned int i, j;
         double *buffer = (double *) outputbuffer;
-        userdata *data = (userdata *) userdata;
+        UserData *data = (UserData *) userdata;
 
         if ( status ) {
             std::cout << "stream underflow detected!" << std::endl;
@@ -80,81 +82,25 @@ int saw( void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
     return 0;
 }
 
-void controlthread(userdata *data) {
-    char ch;
-    
-    std::cout << "\ncontrols:" << std::endl;
-    std::cout << "'a/z' - left channel note up/down" << std::endl;
-    std::cout << "'s/x' - left channel octave up/down" << std::endl;
-    std::cout << "'k/m' - right channel note up/down" << std::endl;
-    std::cout << "'l/,' - right channel octave up/down" << std::endl;
-    std::cout << "'j/n' - key up/down" << std::endl;
 
-    std::cout << "'q' - quit" << std::endl;
-    
-    
-    while (true) {
-        std::cout << "\rleft: " << data->leftindex.load() << ":" << data->leftoctave.load()
-                  << " right: " << data->rightindex.load() << ":" << data->rightoctave.load() << " > ";
-        std::cin >> ch;
-        
-        switch (ch) {
-            case 'a': data->leftindex = (data->leftindex.load() + 1) % data->scalesize; break;
-            case 'z': data->leftindex = (data->leftindex.load() - 1 + data->scalesize) % data->scalesize; break;
-            case 's': data->leftoctave = std::min(2, data->leftoctave.load() + 1); break; 
-            case 'x': data->leftoctave = std::max(-2, data->leftoctave.load() - 1); break;
-            case 'k': data->rightindex = (data->rightindex.load() + 1) % data->scalesize; break;
-            case 'm': data->rightindex = (data->rightindex.load() - 1 + data->scalesize) % data->scalesize; break;
-            case 'l': data->rightoctave = std::min(2, data->rightoctave.load() + 1); break; 
-            case ',': data->rightoctave = std::max(-2, data->rightoctave.load() - 1); break;
-            case 'j': data->key = (data->key.load() + 1) % data->keysize; break;
-            case 'n': data->key = (data->key.load() - 1 + data->keysize)  % data->keysize; break;
-
-            case 'q': return;
-        }
-    }
+void Sawtooth::set_left_note(int index, int octave) {
+    userData.leftindex = std::max(0, std::min(userData.scalesize - 1, index));
+    userData.leftoctave = std::max(-2, std::min(2, octave));
 }
 
-int main() {
-    rtaudio dac;
-    unsigned int devicecount = dac.getdevicecount();
-    if ( devicecount < 1 ) {
-        std::cout << "no audio devices found!" << std::endl;
-        exit ( 0 );
-    }
-    rtaudio::streamparameters parameters;
-    parameters.deviceid = dac.getdefaultoutputdevice();
-    parameters.nchannels = 2;
-    parameters.firstchannel = 0;    
-    unsigned int samplerate = 44100;
-    unsigned int bufferframes = 256;
-
-
-    userdata userdata;
-
-    try {
-        dac.openstream( &parameters, null, rtaudio_float64, samplerate, &bufferframes, &saw, (void*)&userdata);
-    } catch (rtaudioerror& e) {
-        std::cout << '\n' << e.getmessage() << '\n' << std::endl;
-        exit( 0 );
-    }
-
-    try {
-        dac.startstream();
-    } catch (rtaudioerror& e) {
-        std::cout << '\n' << e.getmessage() << '\n' << std::endl;
-        goto cleanup;
-    }
-
-
-    controlthread(&userdata);
-
-    if ( dac.isstreamrunning() ) 
-        dac.stopstream();
-
-    cleanup:
-    if ( dac.isstreamopen() )
-        dac.closestream();
-
-    return 0;
+void Sawtooth::set_right_note(int index, int octave) {
+    userData.rightindex = std::max(0, std::min(userData.scalesize - 1, index));
+    userData.rightoctave = std::max(-2, std::min(2, octave));
 }
+
+void Sawtooth::set_key(int key) {
+    userData.key = std::max(0, std::min(userData.keysize - 1, key));
+}
+
+void Sawtooth::update_notes(int left, int right, int key, int octave) {
+    set_left_note(left, octave);
+    set_right_note(right, octave);
+    set_key(key);
+}
+
+

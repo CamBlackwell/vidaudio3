@@ -1,29 +1,43 @@
 #include "infotoaudio.h"
 #include <iostream>
 
-Infotoaudio::Infotoaudio() : note_duration_ms(100), is_enabled(true) {
+Infotoaudio::Infotoaudio() : note_duration_ms(100), left_note(100), right_note(100) {
 
 }      
 
 Infotoaudio::~Infotoaudio() {
 }
 
-void Infotoaudio::read_and_play(cv::Mat &frame, int x, int y, int threshold) {
-    if (!is_enabled || x < 0 || y < 0 || x >= frame.cols || y >= frame.rows) {
-        printf("infotoaudio::play_if_bright() is disabled or out of bounds\n");
-        return;
+int Infotoaudio::determine_note(int brightness, bool left_or_right_channel) {
+    if (left_or_right_channel) { // left channel
+        if (brightness < left_note + 50) return -1;
+        if (brightness < left_note - 50) return 1;
+        left_note = brightness;
+    if (!left_or_right_channel) { // right channel
+        if (brightness > right_note + 50) return 1;
+        if (brightness < right_note - 50) return -1;
+        right_note = brightness;
+    } 
+        return 0;
     }
 
-    int brightness = calculate_brightness(frame, x, y);
-    if (brightness > threshold) {
-        int frequency = 300 + (brightness * 5);
-        Beep(frequency, note_duration_ms);
-        printf("infotoaudio::play_if_bright() playing beep at %d Hz\n", frequency);
-    }
 }
+
+void Infotoaudio::set_lr_notes(cv::Mat &frame, int x, int y) {
+   int l = calculate_brightness(frame, x - 50, y);//left
+   int r = calculate_brightness(frame, x + 50, y);//right
+   Sawtooth::update_notes(determine_note(l, true), determine_note(r, false), 0, 0);
+   
+}
+
+
+
 
 int Infotoaudio::calculate_brightness(cv::Mat &frame, int x, int y) {
     int brightness = 0;
+    if (x < 0 || x >= frame.cols || y < 0 || y >= frame.rows) {
+        return 128;
+    }
     if (frame.channels() == 3) {
     cv::Vec3b pixel = frame.at<cv::Vec3b>(y, x);
     brightness = (pixel[0] + pixel[1] + pixel[2]) / 3;
@@ -38,8 +52,5 @@ void Infotoaudio::set_note_duration_ms(int note_duration_ms) {
     this->note_duration_ms = note_duration_ms;
 }
 
-void Infotoaudio::is_enabled(bool is_enabled) {
-    this->is_enabled = is_enabled;
-}
 
 

@@ -2,10 +2,18 @@
 #include <opencv2/opencv.hpp>
 #include "webcam_info.h"
 #include "infotoaudio.h"
+#include "sawtooth.h"
 
 int main(){
     cv::VideoCapture cap(0);
     Infotoaudio audio;
+    Sawtooth synth;
+    
+    if (!synth.initialise()) {
+        std::cerr << "Failed to initialize audio" << std::endl;
+        return -1;
+    }
+    synth.start();
 
     if (!cap.isOpened()){
         std::cerr << "Error opening video capture" << std::endl;
@@ -38,7 +46,8 @@ int main(){
 
         int centerX = frame.cols / 2;
         int centerY = frame.rows / 2;
-        audio.read_and_play(frame, centerX, centerY, 150);
+        audio.set_lr_notes(frame, centerX, centerY);
+        
 
         int key = cv::waitKey(25);
         if (key == 27){
@@ -46,6 +55,7 @@ int main(){
             break;
         }
     }
+    synth.stop();
     cap.release();
     cv::destroyAllWindows();
     return 0;

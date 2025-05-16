@@ -50,7 +50,7 @@ class Sawtooth {
         int get_right_octave() const return(userData.rightOctave.load());
         int get_key() const return(userData.key.load());
 
-        void update_from_video(cv::Mat &frame, int x, int y, int radius);
+        void update_notes(int left, int right, int key);
         void run_control_thread();
 
 };
