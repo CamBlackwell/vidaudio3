@@ -98,9 +98,12 @@ void Sawtooth::set_key(int key) {
     userData.key = std::max(0, std::min(userData.keysize - 1, key));
 }
 
-void Sawtooth::update_notes(int left, int right, int key, int octave) {
-    set_left_note(left, octave);
-    set_right_note(right, octave);
+void Sawtooth::update_notes(int left_change, int right_change, int key, int octave) {
+    int new_left = userData.leftindex.load() + left_change;
+    int new_right = userData.rightindex.load() + right_change;
+    
+    set_left_note(new_left, octave);
+    set_right_note(new_right, octave);
     set_key(key);
 }
 

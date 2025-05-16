@@ -16,23 +16,23 @@ Infotoaudio::~Infotoaudio() {
 
 int Infotoaudio::determine_note(int brightness, bool left_or_right_channel) {
     if (left_or_right_channel) { // left channel
-        if (brightness > left_brightness_ref + 50) {
+        if (brightness > left_brightness_ref + 30) {
             left_brightness_ref = brightness;
             left_note_index++;
             return 1;
         }
-        if (brightness < left_brightness_ref - 50) {
+        if (brightness < left_brightness_ref - 30) {
             left_brightness_ref = brightness;
             left_note_index--;
             return -1;
         }
     } else { // right channel
-        if (brightness > right_brightness_ref + 50) {
+        if (brightness > right_brightness_ref + 30) {
             right_brightness_ref = brightness;
             right_note_index++;
             return 1;
         }
-        if (brightness < right_brightness_ref - 50) {
+        if (brightness < right_brightness_ref - 30) {
             right_brightness_ref = brightness;
             right_note_index--;
             return -1;
