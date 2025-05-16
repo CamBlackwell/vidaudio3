@@ -1,22 +1,42 @@
 #include "infotoaudio.h"
 #include <iostream>
 
-Infotoaudio::Infotoaudio(Sawtooth* sawtooth_instance) : note_duration_ms(100), left_note(100), right_note(100), sawtooth(sawtooth_instance) {
+Infotoaudio::Infotoaudio(Sawtooth* sawtooth_instance) 
+    : note_duration_ms(100), 
+      left_note_index(3),  
+      right_note_index(3), 
+      left_brightness_ref(128), 
+      right_brightness_ref(128), 
+      sawtooth(sawtooth_instance) {
+}
 
-}      
 
 Infotoaudio::~Infotoaudio() {
 }
 
 int Infotoaudio::determine_note(int brightness, bool left_or_right_channel) {
     if (left_or_right_channel) { // left channel
-        if (brightness > left_note + 50) return 1;
-        if (brightness < left_note - 50) return -1;
-        left_note = brightness;
-    } else {
-        if (brightness > right_note + 50) return 1;
-        if (brightness < right_note - 50) return -1;
-        right_note = brightness;
+        if (brightness > left_brightness_ref + 50) {
+            left_brightness_ref = brightness;
+            left_note_index++;
+            return 1;
+        }
+        if (brightness < left_brightness_ref - 50) {
+            left_brightness_ref = brightness;
+            left_note_index--;
+            return -1;
+        }
+    } else { // right channel
+        if (brightness > right_brightness_ref + 50) {
+            right_brightness_ref = brightness;
+            right_note_index++;
+            return 1;
+        }
+        if (brightness < right_brightness_ref - 50) {
+            right_brightness_ref = brightness;
+            right_note_index--;
+            return -1;
+        }
     }
     return 0;
 }
