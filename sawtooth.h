@@ -1,11 +1,13 @@
 #ifndef SAWTOOTH_H
 #define SAWTOOTH_H
 
-#include <iostream>
 #include <rtaudio/RtAudio.h>
+
 #include <atomic>
-#include <string>
 #include <cmath>
+#include <iostream>
+#include <string>
+
 #include "scales.h"
 
 struct UserData {
@@ -19,43 +21,41 @@ struct UserData {
     static constexpr int scalesize = Scales::scalesize;
 
     double getnote(int index, int octave, int key) const {
-        if (index < 0 || index >= scalesize) return 0.005; 
+        if (index < 0 || index >= scalesize) return 0.005;
         double freq = Scales::ALL_SCALES[key][index] * pow(2.0, octave);
         return freq / 44100.0;
     }
 };
 
 class Sawtooth {
-    private:
-        RtAudio dac;
-        UserData userData;
-        bool is_running = false;
+   private:
+    RtAudio dac;
+    UserData userData;
+    bool is_running = false;
 
-        static int saw(void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
-                      double streamtime, RtAudioStreamStatus status, void *userdata);
+    static int saw(void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
+                   double streamtime, RtAudioStreamStatus status, void *userdata);
 
-    public:
-        Sawtooth();
-        ~Sawtooth();
+   public:
+    Sawtooth();
+    ~Sawtooth();
 
-        bool initialise();
-        void start();
-        void stop();
-        
+    bool initialise();
+    void start();
+    void stop();
 
-        void set_left_note(int index, int octave);
-        void set_right_note(int index, int octave);
-        void set_key(int key);
+    void set_left_note(int index, int octave);
+    void set_right_note(int index, int octave);
+    void set_key(int key);
 
-        int get_left_index() const { return userData.leftindex.load(); }
-        int get_right_index() const { return userData.rightindex.load(); }
-        int get_left_octave() const { return userData.leftoctave.load(); }
-        int get_right_octave() const { return userData.rightoctave.load(); }
-        int get_key() const { return userData.key.load(); }
+    int get_left_index() const { return userData.leftindex.load(); }
+    int get_right_index() const { return userData.rightindex.load(); }
+    int get_left_octave() const { return userData.leftoctave.load(); }
+    int get_right_octave() const { return userData.rightoctave.load(); }
+    int get_key() const { return userData.key.load(); }
 
-        void update_notes(int left, int right, int key, int octave);
-        void run_control_thread();
-
+    void update_notes(int left, int right, int key, int octave);
+    void run_control_thread();
 };
 
 #endif

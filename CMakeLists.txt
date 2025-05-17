@@ -13,6 +13,7 @@ else()
 endif()
 
 project(vidaudio3)
+set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
 
 if(POLICY CMP0074)
   cmake_policy(SET CMP0074 NEW)
@@ -24,6 +25,11 @@ set(CMAKE_CXX_STANDARD_REQUIRED ON)
 find_package(OpenCV REQUIRED)
 find_package(RtAudio CONFIG REQUIRED) 
 include_directories(${OpenCV_INCLUDE_DIRS})
+
+find_program(CLANG_TIDY_EXECUTABLE clang-tidy)
+if(CLANG_TIDY_EXECUTABLE)
+    set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY_EXECUTABLE})
+endif()
 
 add_executable(vidaudio3 main.cpp webcam_info.cpp infotoaudio.cpp sawtooth.cpp scales.h)
 target_link_libraries(vidaudio3 ${OpenCV_LIBS}  RtAudio::rtaudio)
