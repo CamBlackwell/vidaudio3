@@ -18,23 +18,23 @@ Infotoaudio::~Infotoaudio() {}
 
 int Infotoaudio::determine_octave(int octave, bool left_or_right_channel) {
     if (left_or_right_channel) {  // left channel
-        if (octave > left_octave_ref + 60) {
+        if (octave > left_octave_ref + 10) {
             left_octave_ref = octave;
             left_octave_index++;
             return 1;
         }
-        if (octave < left_octave_ref - 60) {
+        if (octave < left_octave_ref - 10) {
             left_octave_ref = octave;
             left_octave_index--;
             return -1;
         }
     } else {  // right channel
-        if (octave > right_octave_ref + 60) {
+        if (octave > right_octave_ref + 10) {
             right_octave_ref = octave;
             right_octave_index++;
             return 1;
         }
-        if (octave < right_octave_ref - 60) {
+        if (octave < right_octave_ref - 10) {
             right_octave_ref = octave;
             right_octave_index--;
             return -1;
