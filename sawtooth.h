@@ -32,6 +32,8 @@ class Sawtooth {
     RtAudio dac;
     UserData userData;
     bool is_running = false;
+    int new_left_octave = 0;
+    int new_right_octave = 0;
 
     static int saw(void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
                    double streamtime, RtAudioStreamStatus status, void *userdata);
