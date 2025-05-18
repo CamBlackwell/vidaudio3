@@ -15,7 +15,7 @@ class Infotoaudio {
    private:
     int calculate_brightness(cv::Mat& frame, int x, int y);
     int determine_note(int brightness, bool left_or_right_channel);
-    int calculate_octave(int brightness, bool left_or_right_channel);
+    int calculate_octave(int brightness, int x, int y);
     int determine_octave(int octave, bool left_or_right_channel);
     int note_duration_ms;
     bool is_enabled;

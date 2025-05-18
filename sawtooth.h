@@ -56,7 +56,7 @@ class Sawtooth {
     int get_right_octave() const { return userData.rightoctave.load(); }
     int get_key() const { return userData.key.load(); }
 
-    void update_notes(int left, int right, int key, int octave);
+    void update_notes(int left, int right, int key, int left_octave, int right_octave);
     void run_control_thread();
 };
 
