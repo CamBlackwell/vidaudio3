@@ -111,39 +111,45 @@ int Infotoaudio::calculate_colour(cv::Mat &frame, int x, int y) {
     } else if (frame.channels() == 1) {
         b = g = r = frame.at<uchar>(y, x);
     }
-    
-    int total = r + g + b;
-    
-    if (total < 30) return 0;
-    if (total > 750) return 255;
-    
+
     int max_val = std::max(r, std::max(g, b));
     int min_val = std::min(r, std::min(g, b));
     int diff = max_val - min_val;
+    int sum = r + g + b;
     
-    if (diff < 15) {
-        return total / 3;
-    }
-    
-    int hue = 0;
-    
-    if (max_val == r) {
-        std::cout << "red" << std::endl;
-        hue = 0 + 42 * (g - min_val) / diff;
-    } else if (max_val == g) {
-        hue = 42 + 85 * (b - min_val) / diff;
-        std::cout << "blue" << std::endl;
-    } else {
-        hue = 127 + 128 * (r - min_val) / diff;
-        std::cout << "green" << std::endl;
-    }
+    if (sum < 80) return 0;      //Black
+    if (sum > 700) return 200;    //White
+    if (diff < 30) return 180;    //Gray
     
     float saturation = (float)diff / max_val;
     
-    int result = hue + (saturation * 50) - 25;
-   
+    /*if (saturation < 0.2) {
+        if (sum < 300) return 50;      //Dark gray
+        else return 200;               //Light gray
+    }*/
     
-    return std::max(0, std::min(255, result));
+    if (r > g && r > b) {
+        if (g > b * 1.5) {
+            if (g > r * 0.8) return 60;    //Orange (high red, high green, low blue)
+        }
+        else if (b > g * 1.2) return 40;  //Pink/Magenta (high red, low green, high blue) 
+        else return 20;                    //Pure red (high red, low everything else)
+    }
+    
+    if (g > r && g > b) {
+        if (r > b * 1.5) return 80;     //Yellow-green (high green, high red, low blue)
+        //if (b > r * 1.5) return 100;    //Cyan-green (high green, high blue, low red)
+        return 100;                      //Pure green (high green, low everything else)
+    }
+    
+    if (b > r && b > g) {
+        if (r > g * 1.5) return 160;    //Purple (high blue, high red, low green)
+        if (g > r * 1.5) return 120;    //Cyan (high blue, high green, low red)
+        return 140;                     //Pure blue (high blue, low everything else)
+    }
+    
+    // Fallback
+    return 100;
 }
 
 void Infotoaudio::set_note_duration_ms(int note_duration_ms) {

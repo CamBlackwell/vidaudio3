@@ -32,6 +32,9 @@ int main() {
     while (true) {
         cap >> frame;
 
+        int frameCount = 0;
+        const int UPDATE_INTERVAL = 50;
+
         if (frame.empty()) {
             std::cout << "ERROR: no frame in video" << std::endl;
             break;
@@ -45,9 +48,13 @@ int main() {
             cv::resizeWindow(windowName, display_frame.cols, display_frame.rows);
         }
 
-        int centerX = frame.cols / 2;
-        int centerY = frame.rows / 2;
-        audio.set_lr_notes(frame, centerX, centerY);
+        if (frameCount % UPDATE_INTERVAL == 0) {
+            int centerX = frame.cols / 2;
+            int centerY = frame.rows / 2;
+            audio.set_lr_notes(frame, centerX, centerY);
+        }
+
+        frameCount++;
 
         int key = cv::waitKey(25);
         if (key == 27) {
