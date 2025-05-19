@@ -33,7 +33,7 @@ int main() {
         cap >> frame;
 
         int frameCount = 0;
-        const int UPDATE_INTERVAL = 50;
+        const int UPDATE_INTERVAL = 5;
 
         if (frame.empty()) {
             std::cout << "ERROR: no frame in video" << std::endl;
