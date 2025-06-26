@@ -12,9 +12,26 @@ Infotoaudio::Infotoaudio(Sawtooth *sawtooth_instance)
       right_octave_ref(150),
       left_octave_index(3),
       right_octave_index(3),
+      total_data_ref(150),
+      current_key(5),
       sawtooth(sawtooth_instance) {}
 
 Infotoaudio::~Infotoaudio() {}
+
+int Infotoaudio::detemine_key(total_brigtness, total_colour){
+    int total_data = (total_brigtness + total_colour) / 2;
+    if (total_data > total_data_ref + 70) {
+        total_data_ref = total_data;
+        current_key++;
+        return 1;
+    }
+    if (total_data < total_data_ref - 70) {
+        total_data_ref = total_data;
+        current_key--;
+        return -1;
+    }
+    return 0;
+}
 
 int Infotoaudio::determine_octave(int octave, bool left_or_right_channel) {
     if (left_or_right_channel) {  // left channel
@@ -72,12 +89,14 @@ int Infotoaudio::determine_note(int brightness, bool left_or_right_channel) {
 }
 
 void Infotoaudio::set_lr_notes(cv::Mat &frame, int x, int y) {
-    int l = calculate_colour(frame, x - 50, y);  // left
-    int r = calculate_colour(frame, x + 50, y);  // right
+    int l_colour = calculate_colour(frame, x - 50, y);
+    int r_colour = calculate_colour(frame, x + 50, y);
+    int total_colour = (l_colour + r_colour) / 2;
 
-    int l_oct = calculate_brightness(frame, x - 50, y);  // left
-    int r_oct = calculate_brightness(frame, x + 50, y);  // right
-    sawtooth->update_notes(determine_note(l, true), determine_note(r, false), 0, determine_octave(l_oct, true), determine_octave(r_oct, false));
+    int l_brightness= calculate_brightness(frame, x - 50, y);  
+    int r_brightness = calculate_brightness(frame, x + 50, y);  
+    int total_brigtness = (l_brightness + r_brightness) / 2;
+    sawtooth->update_notes(determine_note(l_colour, true), determine_note(r_colour, false), determine_key(total_brigtness, total_colour), determine_octave(l_brightness, true), determine_octave(r_brightness, false));
 }
 
 int Infotoaudio::calculate_brightness(cv::Mat &frame, int x, int y) {
