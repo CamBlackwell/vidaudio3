@@ -18,7 +18,7 @@ Infotoaudio::Infotoaudio(Sawtooth *sawtooth_instance)
 
 Infotoaudio::~Infotoaudio() {}
 
-int Infotoaudio::detemine_key(total_brigtness, total_colour){
+int Infotoaudio::detemine_key(int total_brigtness, int total_colour){
     int total_data = (total_brigtness + total_colour) / 2;
     if (total_data > total_data_ref + 70) {
         total_data_ref = total_data;
