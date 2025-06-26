@@ -91,7 +91,7 @@ void Sawtooth::set_right_note(int index, int octave) {
     userData.rightoctave = std::max(-2, std::min(2, octave));
 }
 
-void Sawtooth::set_ky(int key) {
+void Sawtooth::set_key(int key) {
     userData.key = std::max(0, std::min(userData.keysize - 1, key));
 }
 
