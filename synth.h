@@ -87,6 +87,9 @@ class Synth {
     void set_right_note(int index, int octave);
     void set_key(int key);
 
+    std::string getCurrentScaleName() const;
+    std::string getCurrentNotesInfo() const;
+
     int get_left_index() const { return userData.leftindex.load(); }
     int get_right_index() const { return userData.rightindex.load(); }
     int get_left_octave() const { return userData.leftoctave.load(); }

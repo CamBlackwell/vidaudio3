@@ -5,6 +5,19 @@
 #include "synth.h"
 #include "webcam_info.h"
 
+WebcamInfo* global_webcam_info = nullptr;
+Synth* global_synth = nullptr;
+
+void onMouse(int event, int x, int y, int flags, void* userdata) {
+    if (event == cv::EVENT_LBUTTONDOWN && global_webcam_info && global_synth) {
+        int button_clicked = global_webcam_info->checkButtonClick(x, y);
+        if (button_clicked >= 0) {
+            global_synth->set_waveform(static_cast<WaveformType>(button_clicked));
+            std::cout << "Switched to " << button_clicked << " waveform via button click" << std::endl;
+        }
+    }
+}
+
 int main() {
     cv::VideoCapture cap(0);
     Synth synth;
@@ -34,6 +47,10 @@ int main() {
     std::cout << "  ESC - Quit" << std::endl;
 
     WebcamInfo webcam_info;
+    global_webcam_info = &webcam_info; 
+    global_synth = &synth;   
+
+    cv::setMouseCallback(windowName, onMouse, nullptr);
 
     while (true) {
         cap >> frame;
@@ -47,9 +64,9 @@ int main() {
         }
 
         if (!frame.empty()) {
-            display_frame = webcam_info.analyzeAndDisplay(frame);
-            // std::cout << "frame size: " << frame.size() << "display frame size: " <<
-            // display_frame.size() << std::endl;
+            std::string scale_info = synth.getCurrentScaleName();
+            std::string notes_info = synth.getCurrentNotesInfo();
+            display_frame = webcam_info.analyzeAndDisplay(frame, scale_info, notes_info, static_cast<int>(synth.get_waveform()));
             cv::imshow(windowName, display_frame);
             cv::resizeWindow(windowName, display_frame.cols, display_frame.rows);
         }

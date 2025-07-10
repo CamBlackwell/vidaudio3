@@ -108,3 +108,24 @@ void Synth::update_notes(int left_change, int right_change, int key, int left_oc
     set_right_note(new_right, new_right_octave);
     set_key(key);
 }
+
+std::string Synth::getCurrentScaleName() const {
+    const char* scale_names[] = {"C_MINOR", "G_MINOR", "D_MINOR", "A_MINOR", 
+                                "E_MINOR", "B_MINOR", "F#_MINOR", "C#_MINOR",
+                                "G#_MINOR", "D#_MINOR", "A#_MINOR", "F_MINOR"};
+    int key = userData.key.load();
+    return "Scale: " + std::string(scale_names[key]);
+}
+
+std::string Synth::getCurrentNotesInfo() const {
+    const char* note_names[] = {"1", "2", "3", "4", "5", "6", "7"};
+    int left_idx = userData.leftindex.load();
+    int right_idx = userData.rightindex.load();
+    int left_oct = userData.leftoctave.load();
+    int right_oct = userData.rightoctave.load();
+    
+    return "Notes: L=" + std::string(note_names[left_idx]) + 
+           "(oct" + std::to_string(left_oct) + ") R=" + 
+           std::string(note_names[right_idx]) + "(oct" + std::to_string(right_oct) + ")";
+}
+
