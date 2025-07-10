@@ -1,4 +1,4 @@
-#include "Synth.h"
+#include "synth.h"
 
 #include <algorithm>
 #include <iostream>
