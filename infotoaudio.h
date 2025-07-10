@@ -3,11 +3,11 @@
 
 #include <opencv2/opencv.hpp>
 
-#include "sawtooth.h"
+#include "synth.h"
 
 class Infotoaudio {
    public:
-    Infotoaudio(Sawtooth* sawtooth_instance);
+    Infotoaudio(Synth* sawtooth_instance);
     ~Infotoaudio();
     void set_note_duration_ms(int note_duration_ms);
     void set_lr_notes(cv::Mat& frame, int x, int y);
@@ -30,7 +30,7 @@ class Infotoaudio {
     int right_octave_index;    // Track current note index (0-6)
     int total_data_ref;
     int current_key;
-    Sawtooth* sawtooth;
+    Synth* sawtooth;
 };
 
 #endif

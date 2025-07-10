@@ -31,5 +31,5 @@ if(CLANG_TIDY_EXECUTABLE)
     set(CMAKE_CXX_CLANG_TIDY ${CLANG_TIDY_EXECUTABLE})
 endif()
 
-add_executable(vidaudio3 main.cpp webcam_info.cpp infotoaudio.cpp sawtooth.cpp scales.h)
+add_executable(vidaudio3 main.cpp webcam_info.cpp infotoaudio.cpp synth.cpp scales.h)
 target_link_libraries(vidaudio3 ${OpenCV_LIBS}  RtAudio::rtaudio)

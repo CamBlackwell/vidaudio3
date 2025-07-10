@@ -2,12 +2,12 @@
 #include <opencv2/opencv.hpp>
 
 #include "infotoaudio.h"
-#include "sawtooth.h"
+#include "synth.h"
 #include "webcam_info.h"
 
 int main() {
     cv::VideoCapture cap(0);
-    Sawtooth synth;
+    Synth synth;
     Infotoaudio audio(&synth);
 
     if (!synth.initialise()) {

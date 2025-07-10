@@ -2,7 +2,7 @@
 
 #include <iostream>
 
-Infotoaudio::Infotoaudio(Sawtooth *sawtooth_instance)
+Infotoaudio::Infotoaudio(Synth *sawtooth_instance)
     : note_duration_ms(100),
       left_note_index(3),
       right_note_index(3),
@@ -14,7 +14,7 @@ Infotoaudio::Infotoaudio(Sawtooth *sawtooth_instance)
       right_octave_index(3),
       total_data_ref(150),
       current_key(5),
-      sawtooth(sawtooth_instance) {}
+      Synth(sawtooth_instance) {}
 
 Infotoaudio::~Infotoaudio() {}
 
@@ -103,7 +103,7 @@ void Infotoaudio::set_lr_notes(cv::Mat &frame, int x, int y) {
     int l_brightness= calculate_brightness(frame, x - 50, y);  
     int r_brightness = calculate_brightness(frame, x + 50, y);  
     int total_brightness = (l_brightness + r_brightness) / 2;
-    sawtooth->update_notes(determine_note(l_colour, true), determine_note(r_colour, false), determine_key(total_brightness, total_colour), determine_octave(l_brightness, true), determine_octave(r_brightness, false));
+    Synth->update_notes(determine_note(l_colour, true), determine_note(r_colour, false), determine_key(total_brightness, total_colour), determine_octave(l_brightness, true), determine_octave(r_brightness, false));
 }
 
 int Infotoaudio::calculate_brightness(cv::Mat &frame, int x, int y) {

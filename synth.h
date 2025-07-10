@@ -1,5 +1,5 @@
-#ifndef SAWTOOTH_H
-#define SAWTOOTH_H
+#ifndef Synth_H
+#define Synth_H
 
 #include <rtaudio/RtAudio.h>
 
@@ -27,7 +27,7 @@ struct UserData {
     }
 };
 
-class Sawtooth {
+class Synth {
    private:
     RtAudio dac;
     UserData userData;
@@ -39,8 +39,8 @@ class Sawtooth {
                    double streamtime, RtAudioStreamStatus status, void *userdata);
 
    public:
-    Sawtooth();
-    ~Sawtooth();
+    Synth();
+    ~Synth();
 
     bool initialise();
     void start();

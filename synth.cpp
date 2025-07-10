@@ -1,15 +1,15 @@
-#include "sawtooth.h"
+#include "Synth.h"
 
 #include <algorithm>
 #include <iostream>
 
-Sawtooth::Sawtooth() {}
+Synth::Synth() {}
 
-Sawtooth::~Sawtooth() {
+Synth::~Synth() {
     stop();
 }
 
-bool Sawtooth::initialise() {
+bool Synth::initialise() {
     unsigned int devicecount = dac.getDeviceCount();
     if (devicecount < 1) {
         std::cout << "no audio devices found!" << std::endl;
@@ -32,7 +32,7 @@ bool Sawtooth::initialise() {
     return true;
 }
 
-void Sawtooth::start() {
+void Synth::start() {
     if (!is_running) {
         RtAudioErrorType errorType = dac.startStream();
         if (errorType != RTAUDIO_NO_ERROR) {
@@ -43,7 +43,7 @@ void Sawtooth::start() {
     }
 }
 
-void Sawtooth::stop() {
+void Synth::stop() {
     if (is_running && dac.isStreamRunning()) {
         dac.stopStream();
         is_running = false;
@@ -53,7 +53,7 @@ void Sawtooth::stop() {
     }
 }
 
-int Sawtooth::saw(void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
+int Synth::saw(void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
                   double streamtime, RtAudioStreamStatus status, void *userdata) {
     unsigned int i;
     double *buffer = (double *)outputbuffer;
@@ -81,21 +81,21 @@ int Sawtooth::saw(void *outputbuffer, void *inputbuffer, unsigned int nbufferfra
     return 0;
 }
 
-void Sawtooth::set_left_note(int index, int octave) {
+void Synth::set_left_note(int index, int octave) {
     userData.leftindex = std::max(0, std::min(userData.scalesize - 1, index));
     userData.leftoctave = std::max(-2, std::min(2, octave));
 }
 
-void Sawtooth::set_right_note(int index, int octave) {
+void Synth::set_right_note(int index, int octave) {
     userData.rightindex = std::max(0, std::min(userData.scalesize - 1, index));
     userData.rightoctave = std::max(-2, std::min(2, octave));
 }
 
-void Sawtooth::set_key(int key) {
+void Synth::set_key(int key) {
     userData.key = std::max(0, std::min(userData.keysize - 1, key));
 }
 
-void Sawtooth::update_notes(int left_change, int right_change, int key, int left_octave, int right_octave) {
+void Synth::update_notes(int left_change, int right_change, int key, int left_octave, int right_octave) {
     int new_left = userData.leftindex.load() + left_change;
     int new_right = userData.rightindex.load() + right_change;
     int new_left_octave = userData.leftoctave.load() + left_octave;
