@@ -26,6 +26,12 @@ int main() {
 
     cv::Mat frame, display_frame;
     std::cout << "Camera feed has started press esc to stop" << std::endl;
+    std::cout << "Controls:" << std::endl;
+    std::cout << "  1 - Sine wave" << std::endl;
+    std::cout << "  2 - Sawtooth wave" << std::endl;
+    std::cout << "  3 - Square wave" << std::endl;
+    std::cout << "  4 - Triangle wave" << std::endl;
+    std::cout << "  ESC - Quit" << std::endl;
 
     WebcamInfo webcam_info;
 
@@ -56,10 +62,30 @@ int main() {
 
         frameCount++;
 
-        int key = cv::waitKey(25);
-        if (key == 27) {
-            std::cout << "application terminated by user by pressing esc" << std::endl;
-            break;
+        int key = cv::waitKey(25) & 0xFF;
+
+        switch (key) {
+            case '1':
+                synth.set_waveform(WaveformType::SINE);
+                std::cout << "Switched to Sine wave" << std::endl;
+                break;
+            case '2':
+                synth.set_waveform(WaveformType::SAW);
+                std::cout << "Switched to Sawtooth wave" << std::endl;
+                break;
+            case '3':
+                synth.set_waveform(WaveformType::SQUARE);
+                std::cout << "Switched to Square wave" << std::endl;
+                break;
+            case '4':
+                synth.set_waveform(WaveformType::TRIANGLE);
+                std::cout << "Switched to Triangle wave" << std::endl;
+                break;
+            case 27: 
+                std::cout << "Application terminated by user" << std::endl;
+                goto exit_loop;
+            default:
+                break;
         }
     }
     synth.stop();

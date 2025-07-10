@@ -9,6 +9,8 @@ Synth::~Synth() {
     stop();
 }
 
+
+
 bool Synth::initialise() {
     unsigned int devicecount = dac.getDeviceCount();
     if (devicecount < 1) {
@@ -24,7 +26,7 @@ bool Synth::initialise() {
 
     // RtAudio 6.0+ uses error codes instead of exceptions
     RtAudioErrorType errorType = dac.openStream(&parameters, NULL, RTAUDIO_FLOAT64, samplerate,
-                                                &bufferFrames, &saw, (void *)&userData);
+                                                &bufferFrames, &waveform, (void *)&userData);
     if (errorType != RTAUDIO_NO_ERROR) {
         std::cout << "\nError opening stream: " << dac.getErrorText() << "\n" << std::endl;
         return false;
@@ -53,7 +55,7 @@ void Synth::stop() {
     }
 }
 
-int Synth::saw(void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
+int Synth::waveform(void *outputbuffer, void *inputbuffer, unsigned int nbufferframes,
                   double streamtime, RtAudioStreamStatus status, void *userdata) {
     unsigned int i;
     double *buffer = (double *)outputbuffer;
@@ -64,21 +66,21 @@ int Synth::saw(void *outputbuffer, void *inputbuffer, unsigned int nbufferframes
         return 0;
     }
 
+    WaveformType currentWaveform = static_cast<WaveformType>(data->waveform.load());
+
     for (i = 0; i < nbufferframes; i++) {
-        double incleft =
-            data->getnote(data->leftindex.load(), data->leftoctave.load(), data->key.load());
-        double incright =
-            data->getnote(data->rightindex.load(), data->rightoctave.load(), data->key.load());
+        double incleft = data->getnote(data->leftindex.load(), data->leftoctave.load(), data->key.load());
+        double incright = data->getnote(data->rightindex.load(), data->rightoctave.load(), data->key.load());
 
-        *buffer++ = data->lastvalues[0];
-        data->lastvalues[0] += incleft;
-        if (data->lastvalues[0] > 1.0) data->lastvalues[0] -= 2.0;
-
-        *buffer++ = data->lastvalues[1];
-        data->lastvalues[1] += incright;
-        if (data->lastvalues[1] > 1.0) data->lastvalues[1] -= 2.0;
+        *buffer++ = data->generateWaveform(incleft, 0, currentWaveform);  
+        *buffer++ = data->generateWaveform(incright, 1, currentWaveform);
     }
     return 0;
+}
+
+void Synth::set_waveform(WaveformType type) {
+    userData.waveform = static_cast<int>(type);
+    std::cout << "Waveform changed to: " << static_cast<int>(type) << std::endl;
 }
 
 void Synth::set_left_note(int index, int octave) {
