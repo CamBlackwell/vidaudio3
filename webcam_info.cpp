@@ -131,8 +131,21 @@ int WebcamInfo::checkButtonClick(int x, int y) {
     }
     return -1;
 }
-void WebcamInfo::onSensitivityChange(int value, void* userdata) {
+
+void WebcamInfo::onKeySensitivityChange(int value, void* userdata) {
     WebcamInfo* webcam_info = static_cast<WebcamInfo*>(userdata);
-    webcam_info->sensitivity = value;
-    std::cout << "Sensitivity changed to: " << value << std::endl;
+    webcam_info->key_sensitivity = value;
+    std::cout << "Key sensitivity changed to: " << value << std::endl;
+}
+
+void WebcamInfo::onOctaveSensitivityChange(int value, void* userdata) {
+    WebcamInfo* webcam_info = static_cast<WebcamInfo*>(userdata);
+    webcam_info->octave_sensitivity = value;
+    std::cout << "Octave sensitivity changed to: " << value << std::endl;
+}
+
+void WebcamInfo::onNoteSensitivityChange(int value, void* userdata) {
+    WebcamInfo* webcam_info = static_cast<WebcamInfo*>(userdata);
+    webcam_info->note_sensitivity = value;
+    std::cout << "Note sensitivity changed to: " << value << std::endl;
 }

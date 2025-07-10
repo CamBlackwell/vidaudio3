@@ -36,7 +36,9 @@ int main() {
 
     std::string windowName = "webcam feed :)";
     cv::namedWindow(windowName, cv::WINDOW_NORMAL);
-    cv::createTrackbar("Sensitivity", windowName, &webcam_info.sensitivity, 200, WebcamInfo::onSensitivityChange, &webcam_info);
+    cv::createTrackbar("Key Sensitivity", windowName, &webcam_info.key_sensitivity, 200, WebcamInfo::onKeySensitivityChange, &webcam_info);
+    cv::createTrackbar("Octave Sensitivity", windowName, &webcam_info.octave_sensitivity, 200, WebcamInfo::onOctaveSensitivityChange, &webcam_info);
+    cv::createTrackbar("Note Sensitivity", windowName, &webcam_info.note_sensitivity, 100, WebcamInfo::onNoteSensitivityChange, &webcam_info);
 
     cv::Mat frame, display_frame;
     std::cout << "Camera feed has started press esc to stop" << std::endl;
@@ -73,7 +75,9 @@ int main() {
         }
 
         if (frameCount % UPDATE_INTERVAL == 0) {
-            audio.setSensitivity(webcam_info.getSensitivity());
+            audio.setKeySensitivity(webcam_info.getKeySensitivity());
+            audio.setOctaveSensitivity(webcam_info.getOctaveSensitivity());
+            audio.setNoteSensitivity(webcam_info.getNoteSensitivity());
             int centerX = frame.cols / 2;
             int centerY = frame.rows / 2;
             audio.set_lr_notes(frame, centerX, centerY);

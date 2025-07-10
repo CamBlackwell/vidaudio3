@@ -11,7 +11,9 @@ class Infotoaudio {
     ~Infotoaudio();
     void set_note_duration_ms(int note_duration_ms);
     void set_lr_notes(cv::Mat& frame, int x, int y);
-    void setSensitivity(int sensitivity);
+    void setKeySensitivity(int sensitivity);
+    void setOctaveSensitivity(int sensitivity);
+    void setNoteSensitivity(int sensitivity);
 
    private:
     int calculate_brightness(cv::Mat& frame, int x, int y);
@@ -31,7 +33,9 @@ class Infotoaudio {
     int right_octave_index;    // Track current note index (0-6)
     int total_data_ref;
     int current_key;
-    int sensitivity_threshold = 60;
+    int key_sensitivity_threshold = 60;
+    int octave_sensitivity_threshold = 60;
+    int note_sensitivity_threshold = 30;
     Synth* synth;
 };
 

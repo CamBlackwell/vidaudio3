@@ -21,8 +21,16 @@ class WebcamInfo {
     cv::Rect button_rects[4];         // Store button rectangles
     const char* waveform_names[4] = {"SINE", "SAW", "SQUARE", "TRIANGLE"};
 
-    int sensitivity = 60;  
-    static void onSensitivityChange(int value, void* userdata);
+    int key_sensitivity = 60;
+   int octave_sensitivity = 60;
+   int note_sensitivity = 30;
+   static void onKeySensitivityChange(int value, void* userdata);
+   static void onOctaveSensitivityChange(int value, void* userdata);
+   static void onNoteSensitivityChange(int value, void* userdata);
+
+   int getKeySensitivity() const { return key_sensitivity; }
+   int getOctaveSensitivity() const { return octave_sensitivity; }
+   int getNoteSensitivity() const { return note_sensitivity; }
 
     std::string get_pixel_info(const cv::Mat& frame, int x, int y);
     cv::Mat display_info_and_video(const cv::Mat& frame, const std::vector<std::string>& info_columns,int current_waveform);
