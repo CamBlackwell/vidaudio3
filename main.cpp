@@ -35,10 +35,11 @@ int main() {
     }
 
     std::string windowName = "webcam feed :)";
+
+    WebcamInfo webcam_info;
+
     cv::namedWindow(windowName, cv::WINDOW_NORMAL);
-    cv::createTrackbar("Key Sensitivity", windowName, &webcam_info.key_sensitivity, 200, WebcamInfo::onKeySensitivityChange, &webcam_info);
-    cv::createTrackbar("Octave Sensitivity", windowName, &webcam_info.octave_sensitivity, 200, WebcamInfo::onOctaveSensitivityChange, &webcam_info);
-    cv::createTrackbar("Note Sensitivity", windowName, &webcam_info.note_sensitivity, 100, WebcamInfo::onNoteSensitivityChange, &webcam_info);
+    
 
     cv::Mat frame, display_frame;
     std::cout << "Camera feed has started press esc to stop" << std::endl;
@@ -49,10 +50,11 @@ int main() {
     std::cout << "  4 - Triangle wave" << std::endl;
     std::cout << "  ESC - Quit" << std::endl;
 
-    WebcamInfo webcam_info;
-    global_webcam_info = &webcam_info; 
-    global_synth = &synth;   
 
+    
+    cv::createTrackbar("Key Sensitivity", windowName, &webcam_info.getKeySensitivityRef(), 200, WebcamInfo::onKeySensitivityChange, &webcam_info);
+    cv::createTrackbar("Octave Sensitivity", windowName, &webcam_info.getOctaveSensitivityRef(), 200, WebcamInfo::onOctaveSensitivityChange, &webcam_info);
+    cv::createTrackbar("Note Sensitivity", windowName, &webcam_info.getNoteSensitivityRef(), 100, WebcamInfo::onNoteSensitivityChange, &webcam_info);
     cv::setMouseCallback(windowName, onMouse, nullptr);
 
     while (true) {
@@ -75,13 +77,14 @@ int main() {
         }
 
         if (frameCount % UPDATE_INTERVAL == 0) {
-            audio.setKeySensitivity(webcam_info.getKeySensitivity());
-            audio.setOctaveSensitivity(webcam_info.getOctaveSensitivity());
-            audio.setNoteSensitivity(webcam_info.getNoteSensitivity());
+            audio.setKeySensitivity(webcam_info.getKeySensitivityRef());
+            audio.setOctaveSensitivity(webcam_info.getOctaveSensitivityRef());
+            audio.setNoteSensitivity(webcam_info.getNoteSensitivityRef());
             int centerX = frame.cols / 2;
             int centerY = frame.rows / 2;
             audio.set_lr_notes(frame, centerX, centerY);
         }
+        
 
         frameCount++;
 
@@ -111,6 +114,7 @@ int main() {
                 break;
         }
     }
+    
     exit_loop:
     synth.stop();
     cap.release();

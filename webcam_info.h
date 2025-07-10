@@ -10,7 +10,13 @@ class WebcamInfo {
     WebcamInfo();
     cv::Mat analyzeAndDisplay(const cv::Mat& frame, const std::string& scale_info, const std::string& notes_info, int current_waveform);
     int checkButtonClick(int x, int y);
-    int getSensitivity() const { return sensitivity; }
+    int& getKeySensitivityRef() { return key_sensitivity; }
+    int& getOctaveSensitivityRef() { return octave_sensitivity; }
+    int& getNoteSensitivityRef() { return note_sensitivity; }
+
+    static void onKeySensitivityChange(int value, void* userdata);
+   static void onOctaveSensitivityChange(int value, void* userdata);
+   static void onNoteSensitivityChange(int value, void* userdata);
 
    private:
     bool has_previous_frame;
@@ -20,17 +26,11 @@ class WebcamInfo {
     cv::Point2i button_positions[4];  // Store button positions for click detection
     cv::Rect button_rects[4];         // Store button rectangles
     const char* waveform_names[4] = {"SINE", "SAW", "SQUARE", "TRIANGLE"};
+   
 
     int key_sensitivity = 60;
-   int octave_sensitivity = 60;
-   int note_sensitivity = 30;
-   static void onKeySensitivityChange(int value, void* userdata);
-   static void onOctaveSensitivityChange(int value, void* userdata);
-   static void onNoteSensitivityChange(int value, void* userdata);
-
-   int getKeySensitivity() const { return key_sensitivity; }
-   int getOctaveSensitivity() const { return octave_sensitivity; }
-   int getNoteSensitivity() const { return note_sensitivity; }
+    int octave_sensitivity = 60;
+    int note_sensitivity = 30;
 
     std::string get_pixel_info(const cv::Mat& frame, int x, int y);
     cv::Mat display_info_and_video(const cv::Mat& frame, const std::vector<std::string>& info_columns,int current_waveform);
