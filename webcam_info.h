@@ -15,6 +15,7 @@ class WebcamInfo {
     bool has_previous_frame;
     cv::CascadeClassifier face;
     int panel_height;
+    int frame_height;
     cv::Point2i button_positions[4];  // Store button positions for click detection
     cv::Rect button_rects[4];         // Store button rectangles
     const char* waveform_names[4] = {"SINE", "SAW", "SQUARE", "TRIANGLE"};
