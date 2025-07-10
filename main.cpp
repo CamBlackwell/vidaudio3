@@ -88,6 +88,7 @@ int main() {
                 break;
         }
     }
+    exit_loop:
     synth.stop();
     cap.release();
     cv::destroyAllWindows();

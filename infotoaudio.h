@@ -30,7 +30,7 @@ class Infotoaudio {
     int right_octave_index;    // Track current note index (0-6)
     int total_data_ref;
     int current_key;
-    Synth* sawtooth;
+    Synth* synth;
 };
 
 #endif
