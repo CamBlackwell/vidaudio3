@@ -124,8 +124,8 @@ std::string Synth::getCurrentNotesInfo() const {
     int left_oct = userData.leftoctave.load();
     int right_oct = userData.rightoctave.load();
     
-    return "Notes: L=" + std::string(note_names[left_idx]) + 
-           "(oct" + std::to_string(left_oct) + ") R=" + 
-           std::string(note_names[right_idx]) + "(oct" + std::to_string(right_oct) + ")";
+    return "Notes: L:" + std::string(note_names[left_idx]) + 
+           "(o" + std::to_string(left_oct) + ") R:" + 
+           std::string(note_names[right_idx]) + "(o" + std::to_string(right_oct) + ")";
 }
 
