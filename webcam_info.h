@@ -10,6 +10,7 @@ class WebcamInfo {
     WebcamInfo();
     cv::Mat analyzeAndDisplay(const cv::Mat& frame, const std::string& scale_info, const std::string& notes_info, int current_waveform);
     int checkButtonClick(int x, int y);
+    int getSensitivity() const { return sensitivity; }
 
    private:
     bool has_previous_frame;
@@ -19,6 +20,9 @@ class WebcamInfo {
     cv::Point2i button_positions[4];  // Store button positions for click detection
     cv::Rect button_rects[4];         // Store button rectangles
     const char* waveform_names[4] = {"SINE", "SAW", "SQUARE", "TRIANGLE"};
+
+    int sensitivity = 60;  
+    static void onSensitivityChange(int value, void* userdata);
 
     std::string get_pixel_info(const cv::Mat& frame, int x, int y);
     cv::Mat display_info_and_video(const cv::Mat& frame, const std::vector<std::string>& info_columns,int current_waveform);

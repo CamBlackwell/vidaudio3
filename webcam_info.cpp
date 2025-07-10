@@ -15,6 +15,24 @@ WebcamInfo::WebcamInfo() : has_previous_frame(false) {
 
 cv::Mat WebcamInfo::analyzeAndDisplay(const cv::Mat& frame, const std::string& scale_info, 
                                      const std::string& notes_info, int current_waveform) {
+    cv::Mat display_frame = frame.clone();
+    
+    int centerX = frame.cols / 2;
+    int centerY = frame.rows / 2;
+    int leftX = centerX - 50;
+    int rightX = centerX + 50;
+    
+    cv::circle(display_frame, cv::Point(leftX, centerY), 8, cv::Scalar(0, 255, 0), 2);  // Green circle for left
+    cv::circle(display_frame, cv::Point(rightX, centerY), 8, cv::Scalar(0, 0, 255), 2); // Red circle for right
+    cv::circle(display_frame, cv::Point(centerX, centerY), 5, cv::Scalar(255, 255, 0), 2); // Cyan circle for center
+    
+    cv::putText(display_frame, "L", cv::Point(leftX - 15, centerY + 5), 
+                cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 255, 0), 2);
+    cv::putText(display_frame, "R", cv::Point(rightX + 10, centerY + 5), 
+                cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(0, 0, 255), 2);
+    cv::putText(display_frame, "C", cv::Point(centerX - 8, centerY - 10), 
+                cv::FONT_HERSHEY_SIMPLEX, 0.7, cv::Scalar(255, 255, 0), 2);
+    
     std::string left_side = get_pixel_info(frame, frame.cols / 4, frame.rows / 4);
     std::string middle_info = get_pixel_info(frame, frame.cols / 2, frame.rows / 2);
     std::string right_info = get_pixel_info(frame, 3 * frame.cols / 4, frame.rows / 4);
@@ -28,7 +46,7 @@ cv::Mat WebcamInfo::analyzeAndDisplay(const cv::Mat& frame, const std::string& s
         notes_info
     };
 
-    return display_info_and_video(frame, info_columns, current_waveform);
+    return display_info_and_video(display_frame, info_columns, current_waveform);
 }
 
 std::string WebcamInfo::get_pixel_info(const cv::Mat& frame, int x, int y) {
@@ -112,4 +130,9 @@ int WebcamInfo::checkButtonClick(int x, int y) {
         }
     }
     return -1;
+}
+void WebcamInfo::onSensitivityChange(int value, void* userdata) {
+    WebcamInfo* webcam_info = static_cast<WebcamInfo*>(userdata);
+    webcam_info->sensitivity = value;
+    std::cout << "Sensitivity changed to: " << value << std::endl;
 }

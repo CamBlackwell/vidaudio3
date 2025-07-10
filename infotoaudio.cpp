@@ -20,7 +20,7 @@ Infotoaudio::~Infotoaudio() {}
 
 int Infotoaudio::determine_key(int total_brightness, int total_colour){
     int total_data = (total_brightness + total_colour) / 2;
-    if (total_data > total_data_ref + 60) {
+    if (total_data > total_data_ref + sensitivity_threshold) {
         total_data_ref = total_data;
         current_key++;
         
@@ -29,7 +29,7 @@ int Infotoaudio::determine_key(int total_brightness, int total_colour){
             current_key = 0;
         }
     }
-    else if (total_data < total_data_ref - 60) {
+    else if (total_data < total_data_ref - sensitivity_threshold) {
         total_data_ref = total_data;
         current_key--;
         printf("key change down\n");
@@ -42,23 +42,23 @@ int Infotoaudio::determine_key(int total_brightness, int total_colour){
 
 int Infotoaudio::determine_octave(int octave, bool left_or_right_channel) {
     if (left_or_right_channel) {  // left channel
-        if (octave > left_octave_ref + 60) {
+        if (octave > left_octave_ref + sensitivity_threshold) {
             left_octave_ref = octave;
             left_octave_index++;
             return 1;
         }
-        if (octave < left_octave_ref - 60) {
+        if (octave < left_octave_ref - sensitivity_threshold) {
             left_octave_ref = octave;
             left_octave_index--;
             return -1;
         }
     } else {  // right channel
-        if (octave > right_octave_ref + 60) {
+        if (octave > right_octave_ref + sensitivity_threshold) {
             right_octave_ref = octave;
             right_octave_index++;
             return 1;
         }
-        if (octave < right_octave_ref - 60) {
+        if (octave < right_octave_ref - sensitivity_threshold) {
             right_octave_ref = octave;
             right_octave_index--;
             return -1;
@@ -70,23 +70,23 @@ int Infotoaudio::determine_octave(int octave, bool left_or_right_channel) {
 
 int Infotoaudio::determine_note(int brightness, bool left_or_right_channel) {
     if (left_or_right_channel) {  // left channel
-        if (brightness > left_brightness_ref + 30) {
+        if (brightness > left_brightness_ref + (sensitivity_threshold / 2) ) {
             left_brightness_ref = brightness;
             left_note_index++;
             return 1;
         }
-        if (brightness < left_brightness_ref - 30) {
+        if (brightness < left_brightness_ref - (sensitivity_threshold / 2)) {
             left_brightness_ref = brightness;
             left_note_index--;
             return -1;
         }
     } else {  // right channel
-        if (brightness > right_brightness_ref + 30) {
+        if (brightness > right_brightness_ref + (sensitivity_threshold / 2)) {
             right_brightness_ref = brightness;
             right_note_index++;
             return 1;
         }
-        if (brightness < right_brightness_ref - 30) {
+        if (brightness < right_brightness_ref - (sensitivity_threshold / 2)) {
             right_brightness_ref = brightness;
             right_note_index--;
             return -1;
@@ -180,4 +180,8 @@ int Infotoaudio::calculate_colour(cv::Mat &frame, int x, int y) {
 
 void Infotoaudio::set_note_duration_ms(int note_duration_ms) {
     this->note_duration_ms = note_duration_ms;
+}
+
+void Infotoaudio::setSensitivity(int sensitivity) {
+    this->sensitivity_threshold = sensitivity;
 }
